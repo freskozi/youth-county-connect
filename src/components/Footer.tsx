@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from "lucide-react";
+import logoVsz from "@/assets/logo-vsz.png";
 
 const socialLinks = [
   { icon: Facebook, href: "#", label: "Facebook" },
@@ -21,10 +22,11 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                <span className="font-heading font-bold text-lg">MŽ</span>
+              <img src={logoVsz} alt="Mladež HDZ-a" className="h-12 w-auto" />
+              <div>
+                <span className="font-heading font-bold text-xl block">Mladež HDZ-a</span>
+                <span className="text-white/60 text-sm">Vukovarsko-srijemske županije</span>
               </div>
-              <span className="font-heading font-bold text-xl">Mladi Županije</span>
             </div>
             <p className="text-white/70 max-w-sm mb-6">
               Zajedno gradimo bolju budućnost naše županije kroz aktivizam, 
@@ -65,11 +67,11 @@ export function Footer() {
             <h4 className="font-heading font-bold text-lg mb-4">Kontakt</h4>
             <div className="flex flex-col gap-4">
               <a 
-                href="mailto:info@mladizupanije.hr" 
+                href="mailto:mladez@hdz-vsz.hr" 
                 className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
               >
                 <Mail size={18} />
-                info@mladizupanije.hr
+                mladez@hdz-vsz.hr
               </a>
               <a 
                 href="tel:+385123456789" 
@@ -80,7 +82,7 @@ export function Footer() {
               </a>
               <div className="flex items-start gap-3 text-white/70">
                 <MapPin size={18} className="flex-shrink-0 mt-1" />
-                <span>Ulica mladih 1, 10000 Zagreb, Hrvatska</span>
+                <span>Vukovar, Vukovarsko-srijemska županija</span>
               </div>
             </div>
           </div>
@@ -90,7 +92,7 @@ export function Footer() {
       {/* Copyright */}
       <div className="border-t border-white/10">
         <div className="container py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50">
-          <p>© 2025 Mladi Županije. Sva prava pridržana.</p>
+          <p>© 2025 Mladež HDZ-a Vukovarsko-srijemske županije. Sva prava pridržana.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Pravila privatnosti</a>
             <a href="#" className="hover:text-white transition-colors">Uvjeti korištenja</a>
