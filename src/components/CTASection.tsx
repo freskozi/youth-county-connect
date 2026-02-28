@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export function CTASection() {
@@ -47,12 +48,15 @@ export function CTASection() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button 
+              asChild
               variant="secondary" 
               size="xl" 
               className="bg-white text-primary hover:bg-white/90 group"
             >
-              Pridruži se danas
-              <ArrowRight className="transition-transform group-hover:translate-x-1" />
+              <Link to="/prijava">
+                Pridruži se danas
+                <ArrowRight className="transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
             <Button 
               variant="ghost" 
