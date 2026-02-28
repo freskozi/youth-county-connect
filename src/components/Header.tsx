@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import logoMladez from "@/assets/logo-mladez-plava.png";
 
 const navLinks = [
   { href: "#novosti", label: "Novosti" },
   { href: "#o-nama", label: "O nama" },
   { href: "#galerija", label: "Galerija" },
   { href: "#kontakt", label: "Kontakt" },
+  { href: "/prijava", label: "Pridruži se", isRoute: true },
 ];
 
 export function Header() {
@@ -19,32 +21,34 @@ export function Header() {
         <nav className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg cta-gradient flex items-center justify-center">
-              <span className="text-white font-heading font-bold text-lg">MŽ</span>
-            </div>
-            <span className="font-heading font-bold text-lg text-primary hidden sm:block">
-              Mladi Županije
+            <img src={logoMladez} alt="Mladež HDZ-a" className="h-10 w-auto" />
+            <span className="font-heading font-bold text-sm sm:text-base text-primary hidden sm:block leading-tight">
+              Mladež HDZ-a<br />
+              <span className="text-xs font-medium text-muted-foreground">Vukovarsko-srijemske županije</span>
             </span>
           </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button variant="hero" size="default">
-              Pridruži se
-            </Button>
+            {navLinks.map((link) =>
+              link.isRoute ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-secondary font-semibold hover:text-primary transition-colors duration-200"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -68,19 +72,27 @@ export function Header() {
             className="md:hidden bg-white border-b border-border overflow-hidden"
           >
             <div className="container py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-foreground/80 hover:text-primary font-medium py-2 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-              <Button variant="hero" size="lg" className="mt-2">
-                Pridruži se
-              </Button>
+              {navLinks.map((link) =>
+                link.isRoute ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="text-secondary font-semibold py-2 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-foreground/80 hover:text-primary font-medium py-2 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
             </div>
           </motion.div>
         )}
