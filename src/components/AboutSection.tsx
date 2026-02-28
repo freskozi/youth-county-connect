@@ -79,7 +79,7 @@ export function AboutSection() {
               variants={itemVariants}
               className="group p-6 md:p-8 rounded-2xl bg-muted/30 hover:bg-gradient-to-br hover:from-secondary/5 hover:to-accent/5 transition-all duration-300 border border-transparent hover:border-secondary/20"
             >
-              <div className="w-14 h-14 rounded-xl cta-gradient flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
                 <feature.icon className="w-7 h-7 text-white" />
               </div>
               <h3 className="font-heading font-bold text-xl text-foreground mb-3">
