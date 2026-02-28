@@ -17,14 +17,18 @@ export function HeroSection() {
 
       <div className="container relative z-10 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.img
-            src={logoVsz}
-            alt="Mladež HDZ-a Vukovarsko-srijemske županije"
-            className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-8 drop-shadow-2xl"
+          <motion.div
+            className="w-36 h-36 md:w-44 md:h-44 mx-auto mb-8 rounded-2xl bg-white/10 backdrop-blur-sm p-4 flex items-center justify-center drop-shadow-2xl"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-          />
+          >
+            <img
+              src={logoVsz}
+              alt="Mladež HDZ-a Vukovarsko-srijemske županije"
+              className="w-full h-full object-contain"
+            />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
