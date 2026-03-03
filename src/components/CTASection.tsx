@@ -13,13 +13,7 @@ export function CTASection() {
       </div>
 
       <div className="container relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center"
-        >
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -28,13 +22,15 @@ export function CTASection() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 mb-6"
           >
             <Sparkles size={18} />
-            <span className="text-sm font-medium">Postani dio naše priče</span>
+            <span className="text-sm font-medium uppercase tracking-wider">
+              Pridruži nam se
+            </span>
           </motion.div>
 
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-6">
             Spreman/na za promjene?
           </h2>
-          
+
           <p className="text-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
             Pridruži se našoj zajednici mladih aktivista i zajedno stvarajmo 
             pozitivne promjene u našoj županiji. Tvoj glas je važan!
@@ -44,8 +40,8 @@ export function CTASection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex justify-center"
           >
             <Button 
               asChild
@@ -54,19 +50,12 @@ export function CTASection() {
               className="bg-white text-primary hover:bg-white/90 group"
             >
               <Link to="/prijava">
-                Pridruži se danas
+                Pridruži se
                 <ArrowRight className="transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button 
-              variant="ghost" 
-              size="xl" 
-              className="text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50"
-            >
-              Saznaj više
-            </Button>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

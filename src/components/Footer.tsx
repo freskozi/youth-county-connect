@@ -1,17 +1,21 @@
-import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import logoVsz from "@/assets/logo-vsz.png";
-
-const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-];
+import { socialLinks } from "@/data/socialLinks";
+import { Link } from "react-router-dom";
+import { TwitterIcon } from "./TwitterIcon";
+import { TikTokIcon } from "./TikTokIcon";
 
 const navLinks = [
-  { label: "O nama", href: "#o-nama" },
-  { label: "Novosti", href: "#novosti" },
-  { label: "Galerija", href: "#galerija" },
-  { label: "Kontakt", href: "#kontakt" },
+  { label: "O nama", href: "/#o-nama" },
+  { label: "Novosti", href: "/#novosti" },
+  { label: "Galerija", href: "/#galerija" },
+  { label: "Kontakt", href: "/#kontakt" },
 ];
 
 export function Footer() {
@@ -20,69 +24,120 @@ export function Footer() {
       <div className="container py-16 md:py-20">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img src={logoVsz} alt="Mladež HDZ-a" className="h-12 w-auto" />
               <div>
-                <span className="font-heading font-bold text-xl block">Mladež HDZ-a</span>
-                <span className="text-white/60 text-sm">Vukovarsko-srijemske županije</span>
+                <span className="font-heading font-bold text-xl block">
+                  Mladež HDZ-a
+                </span>
+                <span className="text-white/60 text-sm leading-tight block">
+                  Vukovarsko-srijemske županije
+                </span>
               </div>
             </div>
-            <p className="text-white/70 max-w-sm mb-6">
-              Zajedno gradimo bolju budućnost naše županije kroz aktivizam, 
+            <p className="text-white/70 text-sm mb-6">
+              Zajedno gradimo bolju budućnost naše županije kroz aktivizam,
               edukaciju i zajedništvo mladih.
             </p>
             <div className="flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                  aria-label={social.label}
-                >
-                  <social.icon size={18} />
-                </a>
-              ))}
+              <a
+                href={socialLinks.facebook}
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook size={16} />
+              </a>
+              <a
+                href={socialLinks.instagram}
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram size={16} />
+              </a>
+              <a
+                href={socialLinks.x}
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="X"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TwitterIcon size={16} />
+              </a>
+              <a
+                href={socialLinks.tiktok}
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="TikTok"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TikTokIcon size={16} />
+              </a>
             </div>
           </div>
 
           {/* Navigation */}
-          <div>
+          <div className="lg:col-span-1">
             <h4 className="font-heading font-bold text-lg mb-4">Navigacija</h4>
             <nav className="flex flex-col gap-3">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
-                  href={link.href}
-                  className="text-white/70 hover:text-white transition-colors"
+                  to={link.href}
+                  className="text-white/70 hover:text-white transition-colors text-sm"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="font-heading font-bold text-lg mb-4">Kontakt</h4>
-            <div className="flex flex-col gap-4">
-              <a 
-                href="mailto:mladez@hdz-vsz.hr" 
-                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+          {/* Contact - Spanning 2 columns to show side-by-side */}
+          <div className="lg:col-span-2">
+            <h4 className="font-heading font-bold text-lg mb-4">Kontakt i Centrale</h4>
+            <div className="flex flex-col gap-6">
+              <a
+                href="mailto:vukovarsko.srijemska@mhdz.hr"
+                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors group w-fit"
               >
-                <Mail size={18} />
-                mladez@hdz-vsz.hr
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                  <Mail size={16} />
+                </div>
+                <span className="text-sm">vukovarsko.srijemska@mhdz.hr</span>
               </a>
-              <a 
-                href="tel:+385123456789" 
-                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
-              >
-                <Phone size={18} />
-                +385 1 234 5678
-              </a>
-              <div className="flex items-start gap-3 text-white/70">
-                <MapPin size={18} className="flex-shrink-0 mt-1" />
-                <span>Vukovar, Vukovarsko-srijemska županija</span>
+
+              <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
+                <div className="space-y-3">
+                  <span className="text-[10px] uppercase tracking-widest text-secondary font-bold italic">Vukovar</span>
+                  <div className="flex flex-col gap-2">
+                    <a href="tel:+38532441511" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-[11px] group">
+                      <Phone size={10} className="text-secondary flex-shrink-0" />
+                      +385 32 441 511
+                    </a>
+                    <div className="flex items-start gap-2 text-white/70 text-[11px]">
+                      <MapPin size={10} className="text-secondary mt-0.5 flex-shrink-0" />
+                      <span>Ul. Andrije Hebranga 12/I, 32000 Vukovar</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3 border-l border-white/5 pl-4">
+                  <span className="text-[10px] uppercase tracking-widest text-secondary font-bold italic">Vinkovci</span>
+                  <div className="flex flex-col gap-2">
+                    <a href="tel:+38532331738" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-[11px] group">
+                      <Phone size={10} className="text-secondary flex-shrink-0" />
+                      +385 32 331 738
+                    </a>
+                    <div className="flex items-start gap-2 text-white/70 text-[11px]">
+                      <MapPin size={10} className="text-secondary mt-0.5 flex-shrink-0" />
+                      <span>Duga ulica 23, 32100 Vinkovci</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -91,12 +146,11 @@ export function Footer() {
 
       {/* Copyright */}
       <div className="border-t border-white/10">
-        <div className="container py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50">
-          <p>© 2025 Mladež HDZ-a Vukovarsko-srijemske županije. Sva prava pridržana.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Pravila privatnosti</a>
-            <a href="#" className="hover:text-white transition-colors">Uvjeti korištenja</a>
-          </div>
+        <div className="container py-6 flex justify-center text-sm text-white/50 text-center">
+          <p>
+            © 2026 Mladež HDZ-a Vukovarsko-srijemske županije. Sva prava
+            pridržana.
+          </p>
         </div>
       </div>
     </footer>

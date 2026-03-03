@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, CheckCircle2, User, Mail, Calendar, Heart } from "lucide-react";
+import { ArrowLeft, CheckCircle2, User, Mail, Phone, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -19,60 +20,93 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const interests = [
-  "Obrazovanje i stipendije",
-  "Kultura i umjetnost",
-  "Sport i rekreacija",
-  "Ekologija i održivost",
-  "Poduzetništvo",
-  "Volontiranje",
-  "Politika i društvo",
-  "Digitalne tehnologije",
-];
-
-const registrationSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Ime mora imati najmanje 2 znaka")
-    .max(100, "Ime može imati najviše 100 znakova"),
-  email: z
-    .string()
-    .trim()
-    .email("Unesite ispravnu email adresu")
-    .max(255, "Email može imati najviše 255 znakova"),
-  dateOfBirth: z
-    .string()
-    .nonempty("Unesite datum rođenja")
-    .refine((val) => {
-      const date = new Date(val);
-      const now = new Date();
-      const age = now.getFullYear() - date.getFullYear();
-      return age >= 14 && age <= 35;
-    }, "Morate imati između 14 i 35 godina"),
-  interests: z
-    .array(z.string())
-    .min(1, "Odaberite barem jedno područje interesa"),
-});
+const registrationSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(1, "Molimo unesite Vaše ime i prezime")
+      .min(2, "Ime i prezime moraju imati najmanje 2 znaka")
+      .max(100, "Ime i prezime mogu imati najviše 100 znakova"),
+    email: z
+      .string()
+      .trim()
+      .email("Unesite ispravnu email adresu")
+      .or(z.literal(""))
+      .optional(),
+    phone: z
+        .string()
+        .trim()
+        .max(50, "Broj može imati najviše 50 znakova")
+        .optional(),
+      message: z
+        .string()
+        .trim()
+        .max(500, "Poruka može imati najviše 500 znakova")
+        .optional(),
+    })
+    .refine((data) => data.email || data.phone, {
+    message: "Morate unijeti broj mobitela ili email adresu",
+    path: ["phone"],
+  });
 
 type RegistrationValues = z.infer<typeof registrationSchema>;
 
 export default function Registration() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<RegistrationValues>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
       name: "",
       email: "",
-      dateOfBirth: "",
-      interests: [],
+      phone: "",
+      message: "",
     },
   });
 
-  const onSubmit = (data: RegistrationValues) => {
-    console.log("Registration submitted:", { ...data, email: "[redacted]" });
-    setSubmitted(true);
+  const onSubmit = async (data: RegistrationValues) => {
+    setIsSubmitting(true);
+    try {
+      const payload: Record<string, string> = {
+        "Ime i prezime": data.name,
+        "Broj mobitela": data.phone || "Nije uneseno",
+        "Napomena/Poruka": data.message || "Nema napomene",
+      };
+
+      // Ako je email unesen, šaljemo ga pod ključem 'email' da Formspree prepozna pošiljatelja
+      // Ako nije unesen, šaljemo opisni ključ da izbjegnemo grešku validacije
+      if (data.email) {
+        payload.email = data.email;
+      } else {
+        payload["Email adresa"] = "Nije uneseno";
+      }
+
+      // Slanje na tvoj email (koristeći tvoj Formspree Form ID: mbdaeljg)
+      const response = await fetch("https://formspree.io/f/mbdaeljg", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        toast.success("Prijava je uspješno poslana!");
+      } else {
+        const errorData = await response.json();
+        console.error("Formspree odgovor:", errorData);
+        toast.error("Greška pri slanju. Molimo provjerite podatke i pokušajte ponovno.");
+      }
+    } catch (error) {
+      console.error("Mrežna greška:", error);
+      toast.error("Došlo je do greške u komunikaciji s poslužiteljem.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,7 +143,7 @@ export default function Registration() {
                   Prijava uspješna!
                 </h1>
                 <p className="text-muted-foreground text-lg mb-8 max-w-md mx-auto">
-                  Hvala ti na prijavi! Uskoro ćeš primiti email s dodatnim
+                  Hvala ti na prijavi! Uskoro ćemo te kontaktirati s dodatnim
                   informacijama o našim aktivnostima.
                 </p>
                 <Button asChild variant="hero" size="lg">
@@ -158,17 +192,16 @@ export default function Registration() {
 
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="phone"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <Mail size={16} className="text-secondary" />
-                            Email adresa
+                            <Phone size={16} className="text-secondary" />
+                            Broj mobitela
                           </FormLabel>
                           <FormControl>
                             <Input
-                              type="email"
-                              placeholder="vasa@email.com"
+                              placeholder="Unesite broj mobitela"
                               {...field}
                             />
                           </FormControl>
@@ -179,15 +212,19 @@ export default function Registration() {
 
                     <FormField
                       control={form.control}
-                      name="dateOfBirth"
+                      name="email"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <Calendar size={16} className="text-secondary" />
-                            Datum rođenja
+                            <Mail size={16} className="text-secondary" />
+                            Email adresa
                           </FormLabel>
                           <FormControl>
-                            <Input type="date" {...field} />
+                            <Input
+                              type="email"
+                              placeholder="Unesite email adresu"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -196,44 +233,20 @@ export default function Registration() {
 
                     <FormField
                       control={form.control}
-                      name="interests"
-                      render={() => (
+                      name="message"
+                      render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="flex items-center gap-2 mb-3">
-                            <Heart size={16} className="text-secondary" />
-                            Područja interesa
+                          <FormLabel className="flex items-center gap-2">
+                            <MessageSquare size={16} className="text-secondary" />
+                            Dodatna napomena
                           </FormLabel>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {interests.map((interest) => (
-                              <FormField
-                                key={interest}
-                                control={form.control}
-                                name="interests"
-                                render={({ field }) => (
-                                  <FormItem className="flex items-center gap-3 space-y-0 rounded-lg border border-border p-3 hover:border-secondary/50 transition-colors cursor-pointer">
-                                    <FormControl>
-                                      <Checkbox
-                                        checked={field.value?.includes(
-                                          interest
-                                        )}
-                                        onCheckedChange={(checked) => {
-                                          const updated = checked
-                                            ? [...field.value, interest]
-                                            : field.value?.filter(
-                                                (v) => v !== interest
-                                              );
-                                          field.onChange(updated);
-                                        }}
-                                      />
-                                    </FormControl>
-                                    <FormLabel className="text-sm font-normal cursor-pointer leading-tight">
-                                      {interest}
-                                    </FormLabel>
-                                  </FormItem>
-                                )}
-                              />
-                            ))}
-                          </div>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Ako nas želite nešto dodatno pitati ili napomenuti..."
+                              className="resize-none min-h-[100px]"
+                              {...field}
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -244,8 +257,9 @@ export default function Registration() {
                       variant="hero"
                       size="lg"
                       className="w-full mt-4"
+                      disabled={isSubmitting}
                     >
-                      Pošalji prijavu
+                      {isSubmitting ? "Slanje..." : "Pošalji prijavu"}
                     </Button>
                   </form>
                 </Form>

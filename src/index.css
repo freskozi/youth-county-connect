@@ -18,12 +18,12 @@
     --primary: 222 47% 15%;
     --primary-foreground: 210 40% 98%;
 
-    /* Light Blue Secondary */
-    --secondary: 199 89% 48%;
+    /* HDZ Blue Secondary */
+    --secondary: 221 83% 53%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Cyan Accent */
-    --accent: 187 100% 42%;
+    /* Bright Blue Accent */
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
 
     --muted: 210 40% 96%;
@@ -34,14 +34,14 @@
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 199 89% 48%;
+    --ring: 221 83% 53%;
 
     --radius: 0.75rem;
 
     /* Custom Properties */
-    --gradient-primary: linear-gradient(135deg, hsl(187 100% 42%) 0%, hsl(199 89% 48%) 50%, hsl(222 47% 25%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(199 89% 48%) 50%, hsl(222 47% 25%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(210 40% 98%) 0%, hsl(199 89% 95%) 50%, hsl(210 40% 98%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(187 100% 42%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(199 89% 48%) 100%);
     --shadow-card: 0 4px 20px -4px hsl(222 47% 11% / 0.08);
     --shadow-card-hover: 0 12px 32px -8px hsl(222 47% 11% / 0.15);
     --shadow-button: 0 4px 14px -3px hsl(199 89% 48% / 0.4);

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight, Instagram, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { newsArticles } from "@/data/newsData";
@@ -49,19 +49,34 @@ export function NewsSection() {
           viewport={{ once: true }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
-          {newsArticles.map((item) => (
+          {newsArticles.slice(0, 6).map((item) => (
             <motion.article
               key={item.id}
               variants={itemVariants}
               className="group bg-card rounded-2xl overflow-hidden card-hover"
             >
               <Link to={`/novosti/${item.slug}`}>
-                <div className="aspect-[16/10] relative overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                <div className="aspect-[16/10] relative overflow-hidden bg-muted flex items-center justify-center">
+                  {item.type === "embed" ? (
+                    <div className="flex flex-col items-center gap-3 text-muted-foreground group-hover:text-secondary transition-colors">
+                      {item.platform === "instagram" ? (
+                        <Instagram size={48} strokeWidth={1.5} />
+                      ) : (
+                        <Facebook size={48} strokeWidth={1.5} />
+                      )}
+                      <span className="text-sm font-medium">
+                        {item.platform === "instagram" ? "Instagram" : "Facebook"} post
+                      </span>
+                    </div>
+                  ) : (
+                    item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    )
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="absolute top-4 left-4 px-3 py-1 bg-secondary text-white text-xs font-semibold rounded-full">
                     {item.category}
@@ -76,7 +91,7 @@ export function NewsSection() {
                     {item.title}
                   </h3>
                   <p className="text-muted-foreground text-sm line-clamp-3">
-                    {item.excerpt}
+                    {item.type === "embed" ? `Pogledaj na ${item.platform === "instagram" ? "Instagramu" : "Facebooku"}` : item.excerpt}
                   </p>
                   <div className="mt-4 flex items-center gap-2 text-secondary font-semibold text-sm group-hover:gap-3 transition-all">
                     Pročitaj više
@@ -95,9 +110,16 @@ export function NewsSection() {
           transition={{ delay: 0.4 }}
           className="text-center mt-12"
         >
-          <Button variant="outline" size="lg">
-            Sve vijesti
-            <ArrowRight size={18} />
+          <Button
+            variant="outline"
+            size="lg"
+            className="group"
+            asChild
+          >
+            <Link to="/novosti">
+              Sve vijesti
+              <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </Button>
         </motion.div>
       </div>

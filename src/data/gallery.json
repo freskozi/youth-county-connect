@@ -1,0 +1,44 @@
+[
+  {
+    "id": 7,
+    "image": "hdz-bih-3.jpg",
+    "title": "Sjednica MHDZ i Mladež HDZ BiH",
+    "articleSlug": "zajednicka-sjednica-predsjednistava-mhdz-i-mladez-hdz-bih"
+  },
+  {
+    "id": 6,
+    "image": "diploma-2.jpg",
+    "title": "Diplomiranje Političke akademije",
+    "articleSlug": "uspjesno-diplomiranje-politicke-akademije"
+  },
+  {
+    "id": 1,
+    "image": "vinkovci.jpg",
+    "title": "36. obljetnica HDZ-a Vinkovci",
+    "articleSlug": "36-obljetnica-hdz-vinkovci"
+  },
+  {
+    "id": 2,
+    "image": "ilok-1.jpg",
+    "title": "Sjednica u Iloku",
+    "articleSlug": "druga-redovna-sjednica-mladezi-hdz-vsz-ilok"
+  },
+  {
+    "id": 3,
+    "image": "sjednica.jpg",
+    "title": "Konstituirajuća sjednica",
+    "articleSlug": "konstituirajuca-sjednica-mladezi-hdz-vsz"
+  },
+  {
+    "id": 4,
+    "image": "ilok-2.jpg",
+    "title": "Panel rasprava Ilok",
+    "articleSlug": "druga-redovna-sjednica-mladezi-hdz-vsz-ilok"
+  },
+  {
+    "id": 5,
+    "image": "ilok-3.jpg",
+    "title": "Mladež u Iloku",
+    "articleSlug": "druga-redovna-sjednica-mladezi-hdz-vsz-ilok"
+  }
+]

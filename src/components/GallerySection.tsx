@@ -1,38 +1,28 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
-
-import gallery1 from "@/assets/gallery-1.jpg";
-import gallery2 from "@/assets/gallery-2.jpg";
-import gallery3 from "@/assets/gallery-3.jpg";
-import gallery4 from "@/assets/gallery-4.jpg";
-import gallery5 from "@/assets/gallery-5.jpg";
-import gallery6 from "@/assets/gallery-6.jpg";
-
-const galleryImages = [
-  { id: 1, src: gallery1, alt: "Volonterska akcija sadnje drveća" },
-  { id: 2, src: gallery2, alt: "Radionica za mlade" },
-  { id: 3, src: gallery3, alt: "Konferencija mladih" },
-  { id: 4, src: gallery4, alt: "Druženje članova" },
-  { id: 5, src: gallery5, alt: "Projekt u zajednici" },
-  { id: 6, src: gallery6, alt: "Edukativni program" },
-];
+import { X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { galleryItems } from "@/data/galleryData";
 
 export function GallerySection() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const openLightbox = (index: number) => setSelectedIndex(index);
   const closeLightbox = () => setSelectedIndex(null);
-  
-  const goNext = () => {
+
+  const goNext = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex + 1) % galleryImages.length);
+      setSelectedIndex((selectedIndex + 1) % galleryItems.length);
     }
   };
-  
-  const goPrev = () => {
+
+  const goPrev = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex - 1 + galleryImages.length) % galleryImages.length);
+      setSelectedIndex(
+        (selectedIndex - 1 + galleryItems.length) % galleryItems.length,
+      );
     }
   };
 
@@ -61,7 +51,7 @@ export function GallerySection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4"
         >
-          {galleryImages.map((image, index) => (
+          {galleryItems.map((image, index) => (
             <motion.div
               key={image.id}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -73,13 +63,15 @@ export function GallerySection() {
               }`}
               onClick={() => openLightbox(index)}
             >
-              <img 
-                src={image.src} 
-                alt={image.alt}
+              <img
+                src={image.image}
+                alt={image.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white font-semibold text-lg">Pogledaj</span>
+                <span className="text-white font-semibold text-lg">
+                  Pogledaj
+                </span>
               </div>
             </motion.div>
           ))}
@@ -103,40 +95,50 @@ export function GallerySection() {
             >
               <X size={32} />
             </button>
-            
+
             <button
-              onClick={(e) => { e.stopPropagation(); goPrev(); }}
+              onClick={goPrev}
               className="absolute left-4 text-white/80 hover:text-white p-2 transition-colors z-10"
               aria-label="Prethodna slika"
             >
               <ChevronLeft size={40} />
             </button>
-            
+
             <motion.div
               key={selectedIndex}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="max-w-5xl max-h-[85vh] overflow-hidden rounded-xl"
+              className="relative max-w-5xl max-h-[85vh] overflow-hidden rounded-xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <img 
-                src={galleryImages[selectedIndex].src}
-                alt={galleryImages[selectedIndex].alt}
+              <img
+                src={galleryItems[selectedIndex].image}
+                alt={galleryItems[selectedIndex].title}
                 className="w-full h-full object-contain"
               />
             </motion.div>
-            
+
             <button
-              onClick={(e) => { e.stopPropagation(); goNext(); }}
+              onClick={goNext}
               className="absolute right-4 text-white/80 hover:text-white p-2 transition-colors z-10"
               aria-label="Sljedeća slika"
             >
               <ChevronRight size={40} />
             </button>
-            
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm">
-              {galleryImages[selectedIndex].alt}
+
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/80 text-sm">
+              <span>{galleryItems[selectedIndex].title}</span>
+              {galleryItems[selectedIndex].articleSlug && (
+                <Link
+                  to={`/novosti/${galleryItems[selectedIndex].articleSlug}`}
+                  className="inline-flex items-center gap-1 rounded-full bg-secondary px-4 py-1.5 text-xs font-semibold text-white hover:bg-secondary/90"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Otvori članak
+                  <ArrowRight size={14} />
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
