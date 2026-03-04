@@ -44,6 +44,10 @@ export function Header() {
       ? "bg-[#001e4a]/95 backdrop-blur-xl border-b border-white/10 shadow-2xl py-1" 
       : "bg-white/10 backdrop-blur-2xl border-b border-white/10 py-0";
 
+  const handleMobileNavClick = (href: string) => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerBgClass}`}>
       <div className="container mx-auto">
@@ -130,9 +134,10 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg transition-all shadow-lg border bg-white/10 border-white/20 text-white hover:bg-white/20"
+            className="md:hidden p-2 rounded-lg transition-all shadow-lg border bg-white/10 border-white/20 text-white hover:bg-white/20 relative z-50"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
+            type="button"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -147,30 +152,30 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-primary border-t border-white/10 overflow-hidden"
+            className="md:hidden bg-primary border-t border-white/10 overflow-hidden pointer-events-auto"
           >
             <div className="flex flex-col p-6 gap-6">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.href}
-                  to={link.href}
-                  className="text-lg font-medium text-white/90 hover:text-white"
-                  onClick={() => setIsMenuOpen(false)}
+                  href={link.href}
+                  className="text-lg font-medium text-white/90 hover:text-white active:text-white transition-colors block"
+                  onClick={() => handleMobileNavClick(link.href)}
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
-              <div className="flex items-center gap-6 pt-6 border-t border-white/10">
-                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white">
+              <div className="flex items-center gap-6 pt-6 border-t border-white/10 pointer-events-auto">
+                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
                   <Facebook size={24} />
                 </a>
-                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white">
+                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
                   <Instagram size={24} />
                 </a>
-                <a href={socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white">
+                <a href={socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
                   <TikTokIcon size={24} />
                 </a>
-                <a href={socialLinks.x} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white">
+                <a href={socialLinks.x} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
                   <TwitterIcon size={24} />
                 </a>
               </div>
